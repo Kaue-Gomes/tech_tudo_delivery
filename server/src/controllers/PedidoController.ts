@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
 import PedidoService from '../services/PedidoService';
+import { ValidatingSaveStrategy } from '../strategies/ValidatingSaveStrategy';
 
 export default class PedidoController {
-  private service = new PedidoService();
+  private service = new PedidoService(new ValidatingSaveStrategy());
 
   async cadastrarPedido(req: Request, res: Response) {
     try {
       const pedido = await this.service.cadastrarPedido(req.body.descricao);
       res.status(201).json(pedido);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao cadastrar pedido' });
+      res.status(500).json({ error: (error as Error).message });
     }
   }
 
