@@ -6,6 +6,7 @@ import {
   removerEntregues 
 } from '../services/api';
 
+// Interface representando o modelo de Pedido vindo do backend
 interface Pedido {
   id: number;
   descricao: string;
@@ -47,7 +48,8 @@ const PedidoLista = () => {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-center mb-8">TechTudoDelivery</h1>
-      
+
+      {/* Campo de cadastro de novos pedidos */}
       <div className="flex mb-6">
         <input
           type="text"
@@ -64,6 +66,7 @@ const PedidoLista = () => {
         </button>
       </div>
 
+      {/* Botão para remover pedidos entregues */}
       <div className="mb-6">
         <button
           onClick={handleRemoverEntregues}
@@ -73,12 +76,13 @@ const PedidoLista = () => {
         </button>
       </div>
 
+      {/* Lista de pedidos */}
       <div className="space-y-4">
         {pedidos.map((pedido) => (
           <div 
             key={pedido.id}
             className={`p-4 rounded-lg shadow ${
-              pedido.entregue ? 'bg-entregue' : 'bg-pendente'
+              pedido.entregue ? 'bg-green-50' : 'bg-yellow-50'
             }`}
           >
             <div className="flex justify-between items-center">
@@ -88,7 +92,7 @@ const PedidoLista = () => {
                   {new Date(pedido.createdAt).toLocaleString()}
                 </p>
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                   pedido.entregue 
@@ -97,7 +101,7 @@ const PedidoLista = () => {
                 }`}>
                   {pedido.entregue ? 'Entregue' : 'Pendente'}
                 </span>
-                
+
                 {!pedido.entregue && (
                   <button
                     onClick={() => handleEntregar(pedido.id)}
